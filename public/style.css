@@ -43,9 +43,11 @@ video{
 .main__controls{
 display:flex;
 background-color:black;
+
 color:white;
+
 padding:5px;
-justify-content: space-between;
+justify-content: space-around;
 }
 
 .main_controls_block{
@@ -68,14 +70,18 @@ justify-content: space-between;
 
 
 .main_controls_button:hover{
-  background-color: blue;
-  border-radius: 5px;
+  background-color: rgb(96, 96, 102);
+  border-radius: 15px;
 }
 
+.disconnect{
+  color: red;
+}
 
 .leave_meeting{
   color: red;
 }
+
 
 .main__header{
   color:burlywood;
