@@ -101,17 +101,7 @@ navigator.mediaDevices
       console.log("hjhjhj")
       call.answer(stream);
       const video = document.createElement("video");
-      video.addEventListener('click',function(e){
-        if (myVideo.requestFullscreen) {
-          myVideo.requestFullscreen();
-        } else if (myVideo.msRequestFullscreen) {
-          myVideo.msRequestFullscreen();
-        } else if (myVideo.mozRequestFullScreen) {
-          elem.mozRequestFullScreen();
-        } else if (myVideo.webkitRequestFullscreen) {
-          elem.webkitRequestFullscreen();
-        }
-      })
+     
       call.on("stream", (userVideoStream) => {
         console.log(userVideoStream)
         console.log("hjhjhj")
