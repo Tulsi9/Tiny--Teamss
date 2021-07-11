@@ -1,0 +1,66 @@
+body {
+    margin: 0;
+    
+    
+    background-color: #161d29;;
+}
+button.clear {
+    background: #FF5722;
+    color: #fff;
+}
+table {
+    width: 320px;
+	height: 520px;
+	background-color: #eaedef;
+	margin: 0 auto;
+	top: 20px;
+	position: relative;
+	border-radius: 5px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    align-items: center;
+}
+button.equal {
+    width: 88%;
+    background-color: rgb(218, 218, 218);
+}
+
+.input1[type="text"] {
+    text-align: right;
+	height: 60px;
+	margin: 10px 20px;
+	font-size: 30px;
+    border-radius: 20px;
+    background-color: rgb(218, 218, 218);
+    border: thistle;
+}
+button {
+    width: 50px;
+	height: 50px;
+	margin: 15px;
+	float: left;
+	border-radius: 50%;
+	border-width: 0;
+	font-weight: bold;
+	font-size: 15px;
+    background-color: rgb(218, 218, 218);
+}
+button.cube{
+    background-color: #20b2aa;
+}
+button.del{
+    font-weight: normal;
+    background-color: #ffa500;
+}
+button.minus{
+    background-color: #f08080;
+}
+button.plus{
+    background-color: #7d93e0;
+}
+button.multi{
+    background-color: #9477af;
+}
+button:hover{
+    font-size: 26px;
+}
+

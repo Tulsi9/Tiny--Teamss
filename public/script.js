@@ -1,10 +1,22 @@
+
+
+
 const socket = io("/");
 const videoGrid = document.getElementById("video-grid");
+const plist = document.getElementById("plist");
 const myVideo = document.createElement("video");
 const showChat = document.querySelector("#showChat");
+const showCalci = document.querySelector("#showCalci");
+const showboard = document.querySelector("#board");
+const showmoreoptions = document.querySelector("#moreoptions");
 const backBtn = document.querySelector(".header__back");
+const backBtn2 = document.querySelector(".header__back2");
+const backBtn3 = document.querySelector(".header__back3");
 let screenShare = document.querySelector('#screenShare');
-let stopscreenShare = document.querySelector('#stopScreenShare')
+let stopscreenShare = document.querySelector('#stopscreenShare');
+let endcall = document.querySelector('#endcall')
+
+let rejoinbutton = document.querySelector('#rejoinbutton')
 myVideo.muted = true;
 
 backBtn.addEventListener("click", () => {
@@ -13,7 +25,12 @@ backBtn.addEventListener("click", () => {
   document.querySelector(".main__right").style.display = "none";
   document.querySelector(".header__back").style.display = "none";
 });
-
+backBtn2.addEventListener("click", () => {
+  document.querySelector(".main__left").style.display = "flex";
+  document.querySelector(".main__left").style.flex = "1";
+  document.querySelector(".calculator").style.display = "none";
+  document.querySelector(".header__back2").style.display = "none";
+});
 showChat.addEventListener("click", () => {
   document.querySelector(".main__right").style.display = "flex";
   document.querySelector(".main__right").style.flex = "0.3";
@@ -21,64 +38,130 @@ showChat.addEventListener("click", () => {
   document.querySelector(".main__left").style.display = "flex";
   document.querySelector(".header__back").style.display = "block";
 });
+showCalci.addEventListener("click", () => {
+  document.querySelector(".calculator").style.display = "flex";
+  //document.querySelector(".calculator").style.flex = "0.3";
+  //document.querySelector(".main__left").style.flex = "0.7";
+  document.querySelector(".main__left").style.display = "flex";
+  document.querySelector(".header__back2").style.display = "block";
+});
+showmoreoptions.addEventListener("click", () => {
+  document.querySelector(".moreoptions").style.display = "flex";
+  //document.querySelector(".calculator").style.flex = "0.3";
+  //document.querySelector(".main__left").style.flex = "0.7";
+  document.querySelector(".moreoptions").style.display = "flex";
+  document.querySelector(".header__back3").style.display = "block";
+});
+backBtn3.addEventListener("click", () => {
+  document.querySelector(".main__left").style.display = "flex";
+  document.querySelector(".main__left").style.flex = "1";
+  document.querySelector(".moreoptions").style.display = "none";
+  document.querySelector(".header__back3").style.display = "none";
+});
 
-const user = prompt("Enter your name");
+
+
+
+rejoinbutton.addEventListener("click", () => {
+  location.reload();
+})
+
+  
+
+const user = prompt("Enter your Nickname");
+//var user = document.getElementById("fname").value;
+
 
 var peer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
-  port: "443",
+  port: "3030",
 });
 
 var currentPeer
 var peerlist=[]
-
-
 let myVideoStream;
+
+
+
+
 navigator.mediaDevices
   .getUserMedia({
     audio: true,
     video: true,
   })
   .then((stream) => {
+    console.log(stream)
     myVideoStream = stream;
     addVideoStream(myVideo, stream);
-
+    console.log("123")
+    
+      console.log("fhjhjs")
     peer.on("call", (call) => {
+      console.log("hjhjhj")
       call.answer(stream);
       const video = document.createElement("video");
+      video.addEventListener('click',function(e){
+        if (myVideo.requestFullscreen) {
+          myVideo.requestFullscreen();
+        } else if (myVideo.msRequestFullscreen) {
+          myVideo.msRequestFullscreen();
+        } else if (myVideo.mozRequestFullScreen) {
+          elem.mozRequestFullScreen();
+        } else if (myVideo.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        }
+      })
       call.on("stream", (userVideoStream) => {
+        console.log(userVideoStream)
+        console.log("hjhjhj")
         addVideoStream(video, userVideoStream);
+        
         currentPeer=call.peerConnection
         peerlist.push(call.peer)
         });
     });
+  
 
     socket.on("user-connected", (userId) => {
-      connectToNewUser(userId, stream);
+      //connectToNewUser(userId, stream);
+      setTimeout(connectToNewUser,1000,userId,stream)
     });
-  });
-
-const connectToNewUser = (userId, stream) => {
+  })
+  let peers={};
+  const connectToNewUser = (userId, stream) => {
   const call = peer.call(userId, stream);
   const video = document.createElement("video");
+  
   call.on("stream", (userVideoStream) => {
     addVideoStream(video, userVideoStream);
   });
+  call.on('close', () => {
+    video.remove()
+})
+
+peers[userId] = call;
 };
+
+
+
 
 peer.on("open", (id) => {
   socket.emit("join-room", ROOM_ID, id, user);
 });
 
 const addVideoStream = (video, stream) => {
+  console.log("hello")
   video.srcObject = stream;
   video.addEventListener("loadedmetadata", () => {
-    video.play();
-    videoGrid.append(video);
-    
+  video.play();
+  videoGrid.append(video);
+  
+  console.log(videoGrid)
     
   });
+
+  console.log(videoGrid)
 };
 screenShare.addEventListener('click', function (e) 
     {
@@ -103,6 +186,8 @@ screenShare.addEventListener('click', function (e)
             })
             sender.replaceTrack(videoTrack)
             
+            
+            
 
         })
         .catch(function (err) 
@@ -110,6 +195,41 @@ screenShare.addEventListener('click', function (e)
             console.log(err + 'unable to get display')
         })
     })
+
+    stopscreenShare.addEventListener('click', function (e) 
+    {
+      let videoTrack = myVideoStream.getVideoTracks()[0]
+            let sender = currentPeer.getSenders().find(function (s) 
+            {
+              return s.track.kind == videoTrack.kind
+            })
+            sender.replaceTrack(videoTrack)
+    })
+
+    endcall.addEventListener('click', function (e) 
+    {
+      myVideo.remove();
+      videoGrid.remove(myVideoStream);
+      
+      videoGrid.remove(myVideo);
+      
+      
+      
+      document.querySelector(".main__left").style.display = "none";
+      
+      document.querySelector(".main__right").style.display = "none";
+      document.querySelector(".rejoinpage").style.display = "flex";
+      document.querySelector(".rejoinpage").style.flex = "1";
+
+      peer.destroy();
+      peer.close();
+      socket.on('user-disconnected',userId=>{
+        if(peers[userId])
+        peers[userId].close()
+      }) 
+
+    })  
+    
 
     
 
@@ -130,6 +250,19 @@ text.addEventListener("keydown", (e) => {
     text.value = "";
   }
 });
+
+
+myVideo.addEventListener('click',function(e){
+  if (myVideo.requestFullscreen) {
+    myVideo.requestFullscreen();
+  } else if (myVideo.msRequestFullscreen) {
+    myVideo.msRequestFullscreen();
+  } else if (myVideo.mozRequestFullScreen) {
+    elem.mozRequestFullScreen();
+  } else if (myVideo.webkitRequestFullscreen) {
+    elem.webkitRequestFullscreen();
+  }
+})
 
 const inviteButton = document.querySelector("#inviteButton");
 const muteButton = document.querySelector("#muteButton");
@@ -166,8 +299,8 @@ stopVideo.addEventListener("click", () => {
 
 inviteButton.addEventListener("click", (e) => {
   prompt(
-    "Copy this link and send it to people you want to meet with",
-    window.location.href
+    "Copy this roomid and send it to people you want to meet with",
+    window.location.pathname
   );
 });
 
@@ -181,3 +314,13 @@ socket.on("createMessage", (message, userName) => {
         <span>${message}</span>
     </div>`;
 });
+
+function updateScroll(){
+  var element = document.getElementById("main__chat_window");
+  element.scrollTop = element.scrollHeight;
+  }
+  
+  setInterval(updateScroll,1000);
+  
+
+

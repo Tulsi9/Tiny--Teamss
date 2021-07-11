@@ -1,3 +1,5 @@
+
+
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
@@ -27,7 +29,16 @@ io.on("connection", (socket) => {
     socket.on("message", (message) => {
       io.to(roomId).emit("createMessage", message, userName);
     });
+
+    socket.on('disconnect',()=>{
+      socket.to(roomId).emit('user-disconnected',userId)
+    })
   });
 });
+
+
+
+
+
 
 server.listen(process.env.PORT || 3030);

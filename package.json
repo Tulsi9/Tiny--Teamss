@@ -1,7 +1,6 @@
 {
   "name": "Tiny-Teams",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,9 +11,21 @@
   "dependencies": {
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "firebaseui": "^4.8.0",
     "install": "^0.13.0",
     "peer": "^0.6.1",
     "socket.io": "^4.1.2",
     "uuid": "^8.3.2"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tulsi9/backup-copy.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/Tulsi9/backup-copy/issues"
+  },
+  "homepage": "https://github.com/Tulsi9/backup-copy#readme",
+  "description": ""
 }
