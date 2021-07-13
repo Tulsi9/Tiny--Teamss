@@ -23,7 +23,7 @@ A video conferencing platform that allows you to hold team meetings, share ideas
  ### For Tiny Meet:
  - Fork this repo and clone it in your device
 
-- Change port from 443 3030
+- Change port from 443 to 3030
 
 - Install dependencies using the command `npm install`
 
@@ -40,7 +40,7 @@ A video conferencing platform that allows you to hold team meetings, share ideas
 
 - Run the app using `nodemon server.js` command
 
-- Go locally on http://localhost:3030/ .
+- Go locally on http://localhost:3000/ .
 
 
 ### For Homepage:
